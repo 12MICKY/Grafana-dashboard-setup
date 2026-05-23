@@ -20,32 +20,6 @@
   "graphTooltip": 0,
   "panels": [
     {
-      "id": 41,
-      "type": "text",
-      "title": "UniFi Topology Map",
-      "gridPos": {
-        "h": 12,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": []
-      },
-      "pluginVersion": "11.2.2",
-      "options": {
-        "mode": "html",
-        "code": {
-          "language": "html",
-          "showLineNumbers": false,
-          "showMiniMap": false
-        },
-        "content": "<div class=\"unifi-map\">\n  <style>\n    .unifi-map { font-family: Inter, Arial, sans-serif; color: #dbe7f3; width: 100%; height: 100%; box-sizing: border-box; padding: 14px; background: #07111f; border-radius: 4px; overflow: hidden; }\n    .unifi-map .stage { position: relative; width: 100%; height: 100%; min-height: 300px; border: 1px solid rgba(148, 163, 184, .25); background: linear-gradient(180deg, rgba(15, 23, 42, .92), rgba(8, 15, 27, .96)); }\n    .unifi-map .node { position: absolute; width: 150px; min-height: 68px; padding: 10px 12px; border: 1px solid rgba(96, 165, 250, .45); background: rgba(15, 23, 42, .94); box-shadow: 0 10px 30px rgba(0,0,0,.25); border-radius: 6px; box-sizing: border-box; }\n    .unifi-map .node.good { border-color: rgba(34,197,94,.72); }\n    .unifi-map .node.warn { border-color: rgba(245,158,11,.72); }\n    .unifi-map .node .k { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: .06em; }\n    .unifi-map .node .v { margin-top: 5px; font-size: 15px; font-weight: 700; color: #f8fafc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }\n    .unifi-map .node .m { margin-top: 5px; font-size: 12px; color: #a7b4c6; }\n    .unifi-map .chip { display: inline-block; margin-top: 6px; padding: 2px 7px; border-radius: 999px; background: rgba(34,197,94,.15); color: #86efac; font-size: 11px; border: 1px solid rgba(34,197,94,.35); }\n    .unifi-map svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }\n    .unifi-map line { stroke: rgba(96,165,250,.55); stroke-width: 2; }\n    .unifi-map .ssid { width: 170px; border-color: rgba(45,212,191,.58); }\n    .unifi-map .legend { position: absolute; left: 14px; bottom: 12px; right: 14px; display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; }\n    .unifi-map .dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; background:#22c55e; }\n    .unifi-map .dot.blue { background:#60a5fa; }\n    .unifi-map .dot.teal { background:#2dd4bf; }\n  </style>\n  <div class=\"stage\">\n    <svg viewBox=\"0 0 1000 320\" preserveAspectRatio=\"none\">\n      <line x1=\"125\" y1=\"80\" x2=\"315\" y2=\"80\" />\n      <line x1=\"465\" y1=\"80\" x2=\"655\" y2=\"80\" />\n      <line x1=\"730\" y1=\"112\" x2=\"730\" y2=\"180\" />\n      <line x1=\"730\" y1=\"180\" x2=\"205\" y2=\"245\" />\n      <line x1=\"730\" y1=\"180\" x2=\"430\" y2=\"245\" />\n      <line x1=\"730\" y1=\"180\" x2=\"650\" y2=\"245\" />\n      <line x1=\"730\" y1=\"180\" x2=\"860\" y2=\"245\" />\n    </svg>\n    <div class=\"node good\" style=\"left:4%;top:24px\"><div class=\"k\">Host</div><div class=\"v\">Proxmox Home</div><div class=\"m\">10.10.10.10</div><span class=\"chip\">node up</span></div>\n    <div class=\"node good\" style=\"left:30%;top:24px\"><div class=\"k\">LXC</div><div class=\"v\">UniFi 102</div><div class=\"m\">Controller container</div><span class=\"chip\">exporter up</span></div>\n    <div class=\"node good\" style=\"left:58%;top:24px\"><div class=\"k\">Controller</div><div class=\"v\">UniFi Network</div><div class=\"m\">8443 UI / 8080 inform</div><span class=\"chip\">service up</span></div>\n    <div class=\"node good\" style=\"left:79%;top:24px\"><div class=\"k\">Health checks</div><div class=\"v\">UI + Inform</div><div class=\"m\">blackbox probes</div><span class=\"chip\">monitored</span></div>\n    <div class=\"node ssid\" style=\"left:10%;top:210px\"><div class=\"k\">SSID</div><div class=\"v\">Thiraphat_Room</div><div class=\"m\">band: both</div></div>\n    <div class=\"node ssid\" style=\"left:34%;top:210px\"><div class=\"k\">SSID</div><div class=\"v\">Thiraphat_Home</div><div class=\"m\">band: both</div></div>\n    <div class=\"node ssid\" style=\"left:58%;top:210px\"><div class=\"k\">SSID</div><div class=\"v\">Thiraphat iot</div><div class=\"m\">band: 2g</div></div>\n    <div class=\"node ssid\" style=\"left:78%;top:210px\"><div class=\"k\">SSID</div><div class=\"v\">element-54bc...</div><div class=\"m\">auto-discovered</div></div>\n    <div class=\"legend\"><span><i class=\"dot\"></i>healthy service</span><span><i class=\"dot blue\"></i>network path</span><span><i class=\"dot teal\"></i>wireless network</span></div>\n  </div>\n</div>"
-      },
-      "transparent": false
-    },
-    {
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
@@ -93,7 +67,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 12
+        "y": 0
       },
       "id": 1,
       "options": {
@@ -175,7 +149,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 12
+        "y": 0
       },
       "id": 2,
       "options": {
@@ -257,7 +231,7 @@
         "h": 5,
         "w": 4,
         "x": 8,
-        "y": 12
+        "y": 0
       },
       "id": 8,
       "options": {
@@ -339,7 +313,7 @@
         "h": 5,
         "w": 4,
         "x": 12,
-        "y": 12
+        "y": 0
       },
       "id": 9,
       "options": {
@@ -409,7 +383,7 @@
         "h": 5,
         "w": 4,
         "x": 16,
-        "y": 12
+        "y": 0
       },
       "id": 3,
       "options": {
@@ -471,7 +445,7 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 12
+        "y": 0
       },
       "id": 4,
       "options": {
@@ -541,7 +515,7 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 17
+        "y": 5
       },
       "id": 10,
       "options": {
@@ -611,7 +585,7 @@
         "h": 5,
         "w": 6,
         "x": 6,
-        "y": 17
+        "y": 5
       },
       "id": 11,
       "options": {
@@ -681,7 +655,7 @@
         "h": 5,
         "w": 4,
         "x": 12,
-        "y": 17
+        "y": 5
       },
       "id": 12,
       "options": {
@@ -751,7 +725,7 @@
         "h": 5,
         "w": 4,
         "x": 16,
-        "y": 17
+        "y": 5
       },
       "id": 13,
       "options": {
@@ -821,7 +795,7 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 17
+        "y": 5
       },
       "id": 14,
       "options": {
@@ -905,7 +879,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 22
+        "y": 10
       },
       "id": 5,
       "options": {
@@ -988,7 +962,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 22
+        "y": 10
       },
       "id": 6,
       "options": {
@@ -1082,7 +1056,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 30
+        "y": 18
       },
       "id": 15,
       "options": {
@@ -1165,7 +1139,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 30
+        "y": 18
       },
       "id": 16,
       "options": {
@@ -1248,7 +1222,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 38
+        "y": 26
       },
       "id": 17,
       "options": {
@@ -1335,7 +1309,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 38
+        "y": 26
       },
       "id": 18,
       "options": {
@@ -1447,7 +1421,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 34
       },
       "id": 7,
       "options": {
@@ -1542,7 +1516,7 @@
         "h": 5,
         "w": 4,
         "x": 0,
-        "y": 64
+        "y": 52
       },
       "id": 30,
       "options": {
@@ -1608,7 +1582,7 @@
         "h": 5,
         "w": 4,
         "x": 4,
-        "y": 64
+        "y": 52
       },
       "id": 31,
       "options": {
@@ -1678,7 +1652,7 @@
         "h": 5,
         "w": 4,
         "x": 8,
-        "y": 64
+        "y": 52
       },
       "id": 32,
       "options": {
@@ -1748,7 +1722,7 @@
         "h": 5,
         "w": 4,
         "x": 12,
-        "y": 64
+        "y": 52
       },
       "id": 33,
       "options": {
@@ -1818,7 +1792,7 @@
         "h": 5,
         "w": 4,
         "x": 16,
-        "y": 64
+        "y": 52
       },
       "id": 34,
       "options": {
@@ -1888,7 +1862,7 @@
         "h": 5,
         "w": 4,
         "x": 20,
-        "y": 64
+        "y": 52
       },
       "id": 35,
       "options": {
@@ -1972,7 +1946,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 69
+        "y": 57
       },
       "id": 36,
       "options": {
@@ -2055,7 +2029,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 69
+        "y": 57
       },
       "id": 37,
       "options": {
@@ -2149,7 +2123,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 77
+        "y": 65
       },
       "id": 38,
       "options": {
@@ -2243,7 +2217,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 77
+        "y": 65
       },
       "id": 39,
       "options": {
@@ -2329,7 +2303,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 85
+        "y": 73
       },
       "id": 40,
       "options": {
