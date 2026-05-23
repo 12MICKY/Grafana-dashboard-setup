@@ -1,0 +1,389 @@
+groups:
+  - name: docker-swarm-health
+    rules:
+      - alert: DockerExporterDown
+        expr: up{job="docker-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Docker exporter is down on {{ $labels.instance }}"
+
+      - alert: NodeExporterDown
+        expr: up{job="node-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Node exporter is down on {{ $labels.instance }}"
+
+      - alert: HostHighCpu
+        expr: 100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m]))) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Host CPU is high on {{ $labels.instance }}"
+
+      - alert: HostHighMemory
+        expr: 100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Host memory is high on {{ $labels.instance }}"
+
+      - alert: ContainerDown
+        expr: docker_container_up == 0
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Container {{ $labels.name }} is not running on {{ $labels.node }}"
+
+      - alert: DatabaseContainerDown
+        expr: db_container_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database container {{ $labels.name }} is down on {{ $labels.node }}"
+
+      - alert: DatabaseRestarted
+        expr: increase(db_container_restart_count[10m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Database container {{ $labels.name }} restarted on {{ $labels.node }}"
+
+      - alert: HostDatabaseExporterDown
+        expr: up{job="host-db-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Host DB exporter is down on {{ $labels.instance }}"
+
+      - alert: PostgresHostExporterDown
+        expr: absent(postgres_host_exporter_up)
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL host exporter is down on {{ $labels.instance }}"
+
+      - alert: PostgresHostConnectionsHigh
+        expr: sum(postgres_host_connections) / max(postgres_host_setting_max_connections) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PostgreSQL host connections are above 80%"
+
+      - alert: PostgresHostDeadlocks
+        expr: increase(postgres_host_database_deadlocks_total[10m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "PostgreSQL host deadlock detected on {{ $labels.database }}"
+
+  - name: proxmox-home-health
+    rules:
+      - alert: ProxmoxExporterDown
+        expr: up{job="proxmox-pve"} == 0 or proxmox_exporter_up{job="proxmox-pve"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Proxmox exporter is down for {{ $labels.instance }}"
+
+      - alert: ProxmoxGuestDown
+        expr: proxmox_guest_up{job="proxmox-pve"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Proxmox guest {{ $labels.vmid }} {{ $labels.name }} is not running"
+
+      - alert: ProxmoxStorageHigh
+        expr: 100 * proxmox_storage_used_ratio{job="proxmox-pve"} > 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Proxmox storage {{ $labels.storage }} is above 80%"
+
+      - alert: ProxmoxHostMemoryHigh
+        expr: 100 * sum(proxmox_node_memory_bytes{job="proxmox-pve",state="used"}) / sum(proxmox_node_memory_bytes{job="proxmox-pve",state="total"}) > 90
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Proxmox host memory is above 90%"
+
+  - name: unifi-lxc-health
+    rules:
+      - alert: UniFiExporterDown
+        expr: up{job="unifi-lxc"} == 0 or unifi_lxc_exporter_up{job="unifi-lxc"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "UniFi LXC exporter is down"
+
+      - alert: UniFiLxcDown
+        expr: unifi_lxc_up{job="unifi-lxc"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "UniFi LXC 102 is not running"
+
+      - alert: UniFiServiceDown
+        expr: unifi_lxc_service_up{job="unifi-lxc",service="unifi"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "UniFi service is not active inside LXC 102"
+
+      - alert: UniFiPortClosed
+        expr: unifi_lxc_port_open{job="unifi-lxc"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "UniFi expected port {{ $labels.protocol }}/{{ $labels.port }} is not open"
+
+      - alert: UniFiHttpDown
+        expr: probe_success{job="unifi-http"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.display_name }} is not reachable"
+
+      - alert: UniFiHttpSlow
+        expr: probe_duration_seconds{job="unifi-http"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.display_name }} is responding slowly"
+
+      - alert: UniFiExporterSlow
+        expr: unifi_lxc_exporter_scrape_duration_seconds{job="unifi-lxc"} > 7
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "UniFi LXC exporter scrape is slow"
+
+      - alert: UniFiWifiScoreLow
+        expr: unifi_wlan_performance{job="unifi-lxc"} < 80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "UniFi WiFi score is low on SSID {{ $labels.ssid }}"
+
+      - alert: UniFiWifiLatencyHigh
+        expr: unifi_wlan_wifi_tx_latency_ms{job="unifi-lxc"} > 15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "UniFi WiFi latency is high on SSID {{ $labels.ssid }}"
+
+      - alert: UniFiWifiDnsFailures
+        expr: increase(unifi_wlan_dns_failures_daily{job="unifi-lxc"}[15m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "UniFi DNS failures increased on SSID {{ $labels.ssid }}"
+
+  - name: home-server-health
+    rules:
+      - alert: HomeServerNodeDown
+        expr: up{job="home-server-node"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Home server node exporter is down"
+
+      - alert: BackupDnsDown
+        expr: probe_success{job="home-backup-dns"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Backup AdGuard DNS on home server is not resolving"
+
+      - alert: BackupAdGuardWebDown
+        expr: probe_success{job="home-server-http",service="backup-adguard-web"} == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup AdGuard Web on home server is not reachable"
+
+      - alert: HomeServerHighMemory
+        expr: 100 * (1 - (node_memory_MemAvailable_bytes{job="home-server-node"} / node_memory_MemTotal_bytes{job="home-server-node"})) > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Home server memory is above 90%"
+
+      - alert: HomeServerHighCpu
+        expr: 100 * (1 - avg(rate(node_cpu_seconds_total{job="home-server-node",mode="idle"}[5m]))) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Home server CPU is above 85%"
+
+      - alert: HomeServerRootDiskHigh
+        expr: 100 * (1 - (node_filesystem_avail_bytes{job="home-server-node",mountpoint="/",fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{job="home-server-node",mountpoint="/",fstype!~"tmpfs|overlay"})) > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Home server root disk is above 85%"
+
+      - alert: BackupDnsSlow
+        expr: probe_duration_seconds{job="home-backup-dns"} > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup AdGuard DNS is responding slowly"
+
+      - alert: BackupAdGuardWebSlow
+        expr: probe_duration_seconds{job="home-server-http",service="backup-adguard-web"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Backup AdGuard Web is responding slowly"
+
+  - name: server1-service-health
+    rules:
+      - alert: Server1NodeExporterDown
+        expr: up{job="server1-node"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "server1 node exporter is down"
+
+      - alert: Server1HighCpu
+        expr: 100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{job="server1-node",mode="idle"}[5m]))) > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "server1 CPU is above 85%"
+
+      - alert: Server1HighMemory
+        expr: 100 * (1 - (node_memory_MemAvailable_bytes{job="server1-node"} / node_memory_MemTotal_bytes{job="server1-node"})) > 90
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "server1 memory is above 90%"
+
+      - alert: Server1RootDiskHigh
+        expr: 100 * (1 - (node_filesystem_avail_bytes{job="server1-node",mountpoint="/",fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{job="server1-node",mountpoint="/",fstype!~"tmpfs|overlay"})) > 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "server1 root disk is above 85%"
+
+      - alert: Server1HttpServiceDown
+        expr: probe_success{job="server1-http"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.display_name }} on server1 is not reachable"
+
+      - alert: Server1HttpServiceSlow
+        expr: probe_duration_seconds{job="server1-http"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.display_name }} on server1 is responding slowly"
+
+      - alert: Server1DnsDown
+        expr: probe_success{job="server1-dns"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "AdGuard DNS on server1 is not resolving"
+
+      - alert: Server1DnsSlow
+        expr: probe_duration_seconds{job="server1-dns"} > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "AdGuard DNS on server1 is responding slowly"
+
+  - name: monitoring-platform-health
+    rules:
+      - alert: PrometheusTargetDown
+        expr: up{job=~"prometheus|grafana"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.job }} target is down"
+
+      - alert: PrometheusRuleEvalFailures
+        expr: increase(prometheus_rule_evaluation_failures_total[10m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Prometheus has rule evaluation failures"
+
+      - alert: PrometheusConfigReloadFailed
+        expr: prometheus_config_last_reload_successful == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Prometheus config reload failed"
+
+      - alert: GrafanaHttpDown
+        expr: probe_success{job="local-services-http",service="grafana"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Grafana web UI is not reachable"
+
+      - alert: LocalServiceDown
+        expr: probe_success{job="local-services-http",tier!="monitoring"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "{{ $labels.display_name }} is not reachable"
+
+      - alert: LocalServiceSlow
+        expr: probe_duration_seconds{job="local-services-http"} > 3
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.display_name }} is responding slowly"
+

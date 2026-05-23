@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh PostgreSQL Host Metrics textfile
+
+[Timer]
+OnBootSec=20s
+OnUnitActiveSec=15s
+AccuracySec=5s
+Unit=postgres-host-exporter-textfile.service
+
+[Install]
+WantedBy=timers.target

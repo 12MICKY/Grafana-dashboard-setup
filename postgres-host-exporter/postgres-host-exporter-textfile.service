@@ -1,0 +1,8 @@
+[Unit]
+Description=Write PostgreSQL Host Metrics for node_exporter textfile collector
+After=postgres-host-exporter.service
+Wants=postgres-host-exporter.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'mkdir -p /var/lib/node_exporter/textfile_collector && curl -fsS http://127.0.0.1:9187/metrics > /var/lib/node_exporter/textfile_collector/postgres_host.prom.tmp && mv /var/lib/node_exporter/textfile_collector/postgres_host.prom.tmp /var/lib/node_exporter/textfile_collector/postgres_host.prom'

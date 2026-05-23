@@ -1,0 +1,213 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets:
+          - prometheus:9090
+
+  - job_name: docker-exporter
+    dns_sd_configs:
+      - names:
+          - tasks.docker-exporter
+        type: A
+        port: 9101
+
+  - job_name: node-exporter
+    dns_sd_configs:
+      - names:
+          - tasks.node-exporter
+        type: A
+        port: 9100
+
+  - job_name: host-db-exporter
+    dns_sd_configs:
+      - names:
+          - tasks.host-db-exporter
+        type: A
+        port: 9102
+
+  - job_name: proxmox-home
+    static_configs:
+      - targets:
+          - 10.10.10.10:9100
+        labels:
+          node: proxmox-home
+          hostname: homelab
+
+  - job_name: proxmox-pve
+    scrape_interval: 30s
+    scrape_timeout: 25s
+    static_configs:
+      - targets:
+          - 10.10.10.10:9200
+        labels:
+          node: proxmox-home
+          hostname: homelab
+
+  - job_name: unifi-lxc
+    scrape_interval: 15s
+    static_configs:
+      - targets:
+          - 10.10.10.10:9222
+        labels:
+          node: proxmox-home
+          hostname: homelab
+          vmid: "102"
+          service: unifi
+
+  - job_name: unifi-http
+    metrics_path: /probe
+    params:
+      module:
+        - http_unifi_insecure
+    static_configs:
+      - targets:
+          - https://10.10.10.111:8443/
+        labels:
+          node: proxmox-home
+          hostname: unifi
+          vmid: "102"
+          service: unifi-ui
+          display_name: UniFi Network UI
+      - targets:
+          - http://10.10.10.111:8080/
+        labels:
+          node: proxmox-home
+          hostname: unifi
+          vmid: "102"
+          service: unifi-inform
+          display_name: UniFi Inform
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: home-server-http
+    metrics_path: /probe
+    params:
+      module:
+        - http_2xx
+    static_configs:
+      - targets:
+          - http://10.10.10.14:8080/
+        labels:
+          host: home-server
+          hostname: raspberrypi
+          service: backup-adguard-web
+          display_name: Backup AdGuard Web
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: home-backup-dns
+    metrics_path: /probe
+    params:
+      module:
+        - dns_adguard
+    static_configs:
+      - targets:
+          - 10.10.10.14:53
+        labels:
+          host: home-server
+          hostname: raspberrypi
+          service: backup-adguard-dns
+          display_name: Backup AdGuard DNS
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: home-server-node
+    scrape_interval: 15s
+    static_configs:
+      - targets:
+          - 10.10.10.14:9100
+        labels:
+          node: home-server
+          hostname: raspberrypi
+          role: camera-dns
+
+  - job_name: server1-node
+    scrape_interval: 15s
+    static_configs:
+      - targets:
+          - 10.10.10.12:9100
+        labels:
+          node: server1
+          hostname: ubuntu-server2
+          role: services
+
+  - job_name: server1-http
+    metrics_path: /probe
+    params:
+      module:
+        - http_2xx
+    static_configs:
+      - targets:
+          - http://10.10.10.12:8090/
+        labels:
+          host: server1
+          hostname: ubuntu-server2
+          service: openspeedtest
+          display_name: OpenSpeedTest
+      - targets:
+          - http://10.10.10.12/
+        labels:
+          host: server1
+          hostname: ubuntu-server2
+          service: adguard-home
+          display_name: AdGuard Home
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: server1-dns
+    metrics_path: /probe
+    params:
+      module:
+        - dns_adguard
+    static_configs:
+      - targets:
+          - 10.10.10.12:53
+        labels:
+          host: server1
+          hostname: ubuntu-server2
+          service: adguard-dns
+          display_name: AdGuard DNS
+    relabel_configs:
+      - source_labels:
+          - __address__
+        target_label: __param_target
+      - source_labels:
+          - __param_target
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115

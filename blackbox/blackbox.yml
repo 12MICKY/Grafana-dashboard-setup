@@ -1,0 +1,65 @@
+modules:
+  http_2xx:
+    prober: http
+    timeout: 8s
+    http:
+      method: GET
+      preferred_ip_protocol: ip4
+      valid_http_versions:
+        - HTTP/1.1
+        - HTTP/2.0
+      valid_status_codes:
+        - 200
+        - 204
+        - 301
+        - 302
+        - 303
+        - 307
+        - 308
+      follow_redirects: true
+  dns_adguard:
+    prober: dns
+    timeout: 5s
+    dns:
+      preferred_ip_protocol: ip4
+      query_name: cloudflare.com
+      query_type: A
+      transport_protocol: udp
+      valid_rcodes:
+        - NOERROR
+  http_unifi_insecure:
+    prober: http
+    timeout: 8s
+    http:
+      method: GET
+      preferred_ip_protocol: ip4
+      valid_status_codes:
+        - 200
+        - 204
+        - 301
+        - 302
+        - 303
+        - 307
+        - 308
+      follow_redirects: true
+      tls_config:
+        insecure_skip_verify: true
+
+  http_status:
+    prober: http
+    timeout: 8s
+    http:
+      method: GET
+      preferred_ip_protocol: ip4
+      valid_http_versions:
+        - HTTP/1.1
+        - HTTP/2.0
+      valid_status_codes:
+        - 200
+        - 204
+        - 301
+        - 302
+        - 303
+        - 307
+        - 308
+      follow_redirects: false

@@ -1,0 +1,15 @@
+[Unit]
+Description=UniFi LXC Prometheus Exporter
+After=network-online.target pve-container@102.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/unifi_lxc_exporter.py
+Restart=always
+RestartSec=5
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

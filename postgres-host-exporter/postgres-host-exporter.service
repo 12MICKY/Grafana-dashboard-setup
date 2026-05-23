@@ -1,0 +1,16 @@
+[Unit]
+Description=PostgreSQL Host Prometheus Exporter
+After=network-online.target postgresql.service postgresql@16-main.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/postgres-host-exporter.env
+ExecStart=/usr/local/bin/postgres_host_exporter.py
+Restart=always
+RestartSec=5
+User=postgres
+Group=postgres
+
+[Install]
+WantedBy=multi-user.target
