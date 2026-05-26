@@ -7,26 +7,26 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, node-34-grafana]
+    runs-on: node-34-grafana
     timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set build info
+      - name: Build info
         id: info
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Deploy monitoring stack
         run: |
-          cp -r . /home/thiraphat/Grafana-dashboard-setup/
+          cp -rf . /home/thiraphat/Grafana-dashboard-setup/
           docker stack deploy -c /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml monitoring --with-registry-auth
 
-      - name: Verify stack
+      - name: Verify
         run: |
           sleep 10
-          docker stack services monitoring --format '{{.Name}}\t{{.Replicas}}'
+          docker stack services monitoring --format "table {{.Name}}\t{{.Replicas}}"
 
       - name: Notify
         if: always()
@@ -35,11 +35,8 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           STATUS="${{ job.status }}"
-          ICON=$([ "$STATUS" = "success" ] && echo "✅" || echo "❌")
+          ICON=$([ "$STATUS" = "success" ] && echo "\u2705" || echo "\u274c")
           curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
             -d chat_id="${CHAT_ID}" \
             -d parse_mode="Markdown" \
-            -d text="${ICON} *Grafana monitoring stack*
-Status: ${STATUS}
-Commit: \`${{ steps.info.outputs.sha }}\`
-By: ${{ github.actor }}"
+            -d text="${ICON} *Grafana stack* - ${STATUS} - ${{ steps.info.outputs.sha }} - by ${{ github.actor }}"
