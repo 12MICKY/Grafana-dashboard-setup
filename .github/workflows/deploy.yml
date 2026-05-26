@@ -24,7 +24,9 @@ jobs:
           GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
         run: |
           cp -rf . /home/thiraphat/Grafana-dashboard-setup/
-          docker stack deploy -c /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml monitoring --with-registry-auth
+          SHA="${{ steps.info.outputs.sha }}"
+          sed "s/_v[0-9]*/_${SHA}/g" /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml > /tmp/stack-deploy.yml
+          docker stack deploy -c /tmp/stack-deploy.yml monitoring --with-registry-auth
 
       - name: Verify
         run: |
