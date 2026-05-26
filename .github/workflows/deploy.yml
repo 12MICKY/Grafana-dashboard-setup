@@ -19,6 +19,9 @@ jobs:
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
       - name: Deploy monitoring stack
+        env:
+          GRAFANA_ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+          GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
         run: |
           cp -rf . /home/thiraphat/Grafana-dashboard-setup/
           docker stack deploy -c /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml monitoring --with-registry-auth
@@ -35,7 +38,7 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           STATUS="${{ job.status }}"
-          ICON=$([ "$STATUS" = "success" ] && echo "\u2705" || echo "\u274c")
+          ICON=$([ "$STATUS" = "success" ] && echo "✅" || echo "❌")
           curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
             -d chat_id="${CHAT_ID}" \
             -d parse_mode="Markdown" \
