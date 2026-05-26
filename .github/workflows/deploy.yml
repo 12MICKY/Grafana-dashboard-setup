@@ -25,8 +25,9 @@ jobs:
         run: |
           cp -rf . /home/thiraphat/Grafana-dashboard-setup/
           SHA="${{ steps.info.outputs.sha }}"
-          sed "s/_v[0-9]*/_${SHA}/g" /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml > /tmp/stack-deploy.yml
-          docker stack deploy -c /tmp/stack-deploy.yml monitoring --with-registry-auth
+          DEPLOY_FILE="/home/thiraphat/Grafana-dashboard-setup/stack-deploy.yml"
+          sed "s/_v[0-9]*/_${SHA}/g" /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml > "$DEPLOY_FILE"
+          docker stack deploy -c "$DEPLOY_FILE" monitoring --with-registry-auth
 
       - name: Verify
         run: |
