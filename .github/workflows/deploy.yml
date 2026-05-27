@@ -18,21 +18,31 @@ jobs:
         id: info
         run: echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
+      - name: Validate
+        run: scripts/validate.sh
+
+      - name: Sync repository files
+        run: |
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.env' \
+            --exclude='grafana/dashboards.backup-*/' \
+            ./ /home/thiraphat/Grafana-dashboard-setup/
+
       - name: Deploy monitoring stack
+        run: |
+          cd /home/thiraphat/Grafana-dashboard-setup
+          scripts/deploy-k3s.sh
+
+      - name: Verify
         env:
           GRAFANA_ADMIN_PASSWORD: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
           GRAFANA_ADMIN_USER: ${{ secrets.GRAFANA_ADMIN_USER }}
         run: |
-          cp -rf . /home/thiraphat/Grafana-dashboard-setup/
-          SHA="${{ steps.info.outputs.sha }}"
-          DEPLOY_FILE="/home/thiraphat/Grafana-dashboard-setup/stack-deploy.yml"
-          sed "s/_v[0-9]*/_${SHA}/g" /home/thiraphat/Grafana-dashboard-setup/swarm-stack.yml > "$DEPLOY_FILE"
-          docker stack deploy -c "$DEPLOY_FILE" monitoring --with-registry-auth
-
-      - name: Verify
-        run: |
-          sleep 10
-          docker stack services monitoring --format "table {{.Name}}\t{{.Replicas}}"
+          kubectl -n monitoring get pods -o wide
+          GRAFANA_USER="${GRAFANA_ADMIN_USER}" \
+          GRAFANA_PASSWORD="${GRAFANA_ADMIN_PASSWORD}" \
+          /home/thiraphat/Grafana-dashboard-setup/scripts/smoke-test.sh
 
       - name: Notify
         if: always()

@@ -1,5 +1,6 @@
+# Legacy Docker-exporter alerts are retained for local/lab compatibility.
 groups:
-  - name: docker-swarm-health
+  - name: legacy-docker-health
     rules:
       - alert: DockerExporterDown
         expr: up{job="docker-exporter"} == 0
@@ -386,4 +387,3 @@ groups:
           severity: warning
         annotations:
           summary: "{{ $labels.display_name }} is responding slowly"
-

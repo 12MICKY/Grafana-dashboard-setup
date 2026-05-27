@@ -17,7 +17,7 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "panels": [
     {
       "datasource": {
@@ -74,16 +74,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -93,14 +93,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "proxmox_exporter_up{job=\"proxmox-pve\"}",
+          "expr": "max(proxmox_exporter_up{job=\"proxmox-pve\"})",
           "legendFormat": "exporter",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Exporter",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -145,16 +146,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -164,14 +165,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "100 * proxmox_node_cpu_ratio{job=\"proxmox-pve\"}",
+          "expr": "max(100 * proxmox_node_cpu_ratio{job=\"proxmox-pve\"})",
           "legendFormat": "cpu",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Host CPU",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -216,16 +218,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -242,7 +244,8 @@
         }
       ],
       "title": "Host RAM",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -287,16 +290,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -313,7 +316,8 @@
         }
       ],
       "title": "HDD/Storage Peak",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -350,16 +354,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -376,7 +380,8 @@
         }
       ],
       "title": "Network RX",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -413,16 +418,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -439,7 +444,8 @@
         }
       ],
       "title": "Network TX",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -476,16 +482,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -502,7 +508,8 @@
         }
       ],
       "title": "Running Guests",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -547,16 +554,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -573,7 +580,8 @@
         }
       ],
       "title": "Down Guests",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -610,16 +618,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -636,7 +644,8 @@
         }
       ],
       "title": "VM Count",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -673,16 +682,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -699,7 +708,8 @@
         }
       ],
       "title": "LXC Count",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -734,18 +744,18 @@
       },
       "id": 6,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -755,14 +765,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "proxmox_node_uptime_seconds{job=\"proxmox-pve\"}",
+          "expr": "max(proxmox_node_uptime_seconds{job=\"proxmox-pve\"})",
           "legendFormat": "uptime",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Host Uptime",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -807,16 +818,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -826,14 +837,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "proxmox_node_load1{job=\"proxmox-pve\"}",
+          "expr": "max(proxmox_node_load1{job=\"proxmox-pve\"})",
           "legendFormat": "load1",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Host Load1",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -877,7 +889,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -949,7 +962,8 @@
         }
       ],
       "title": "Host CPU / RAM",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -993,7 +1007,8 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "binBps",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1043,7 +1058,8 @@
         }
       ],
       "title": "Host Network Interfaces",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1087,7 +1103,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1137,7 +1154,8 @@
         }
       ],
       "title": "HDD / Storage Used",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1181,7 +1199,8 @@
               }
             ]
           },
-          "unit": "Bps"
+          "unit": "Bps",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1231,7 +1250,8 @@
         }
       ],
       "title": "Guest Disk IO",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1275,7 +1295,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1314,7 +1335,8 @@
         }
       ],
       "title": "Guest CPU",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1358,7 +1380,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1408,7 +1431,8 @@
         }
       ],
       "title": "Guest RAM",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1452,7 +1476,8 @@
               }
             ]
           },
-          "unit": "binBps"
+          "unit": "binBps",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1502,7 +1527,8 @@
         }
       ],
       "title": "Guest Network",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1546,7 +1572,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1585,7 +1612,8 @@
         }
       ],
       "title": "Exporter Scrape Duration",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1630,7 +1658,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1694,7 +1723,8 @@
           }
         }
       ],
-      "type": "table"
+      "type": "table",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1739,7 +1769,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1801,14 +1832,16 @@
           }
         }
       ],
-      "type": "table"
+      "type": "table",
+      "transparent": false
     }
   ],
   "refresh": "10s",
   "schemaVersion": 39,
   "tags": [
-    "proxmox",
     "homelab",
+    "monitoring",
+    "proxmox",
     "vm",
     "lxc",
     "storage",
@@ -1824,108 +1857,143 @@
     "from": "now-6h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ],
+    "time_options": [
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
   "timezone": "browser",
   "title": "02 Proxmox",
   "uid": "proxmox-home",
-  "version": 11,
-  "weekStart": "",
+  "version": 13,
+  "weekStart": "monday",
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Overview",
-      "tooltip": "Homelab Overview",
+      "tooltip": "Main homelab health overview",
       "type": "link",
-      "url": "/d/homelab-overview/homelab-overview?orgId=1&refresh=10s"
+      "url": "/d/homelab-overview/01-overview?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "Docker",
-      "tooltip": "Docker Swarm Monitoring Overview",
-      "type": "link",
-      "url": "/d/docker-monitoring-overview/docker-swarm-monitoring-overview?orgId=1&refresh=10s"
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Proxmox",
-      "tooltip": "Proxmox Home",
+      "tooltip": "Proxmox host, guests, storage, and network",
       "type": "link",
-      "url": "/d/proxmox-home/proxmox-home?orgId=1&refresh=10s"
+      "url": "/d/proxmox-home/02-proxmox?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
-      "title": "UniFi",
-      "tooltip": "UniFi LXC Overview",
+      "title": "K3s",
+      "tooltip": "K3s node and pod resource overview",
       "type": "link",
-      "url": "/d/unifi-lxc-overview/unifi-lxc-overview?orgId=1&refresh=10s"
+      "url": "/d/docker-monitoring-overview/03-k3s?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Server1",
-      "tooltip": "Server1 Services Overview",
+      "tooltip": "Server1 service probes and host health",
       "type": "link",
-      "url": "/d/server1-services-overview/server1-services-overview?orgId=1&refresh=10s"
+      "url": "/d/server1-services-overview/04-server1?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "DB",
-      "tooltip": "DB Servers Overview",
+      "tooltip": "Database containers and PostgreSQL health",
       "type": "link",
-      "url": "/d/db-servers-overview/db-servers-overview?orgId=1&refresh=10s"
+      "url": "/d/db-servers-overview/05-db?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "PostgreSQL",
-      "tooltip": "PostgreSQL Host Overview",
+      "tooltip": "PostgreSQL host metrics",
       "type": "link",
-      "url": "/d/postgres-host-overview/postgresql-host-overview?orgId=1&refresh=10s"
+      "url": "/d/postgres-host-overview/06-postgresql?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "UniFi",
+      "tooltip": "UniFi LXC service and WiFi metrics",
+      "type": "link",
+      "url": "/d/unifi-lxc-overview/07-unifi?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Home DNS",
-      "tooltip": "Home Server / Backup DNS Overview",
+      "tooltip": "Home backup DNS and Raspberry Pi health",
       "type": "link",
-      "url": "/d/home-server-overview/home-server-backup-dns-overview?orgId=1&refresh=10s"
+      "url": "/d/home-server-overview/08-home-dns?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Local Services",
+      "tooltip": "Local blackbox service checks and monitoring health",
+      "type": "link",
+      "url": "/d/local-services-overview/09-local-services?orgId=1&refresh=10s"
     }
-  ]
+  ],
+  "description": "Proxmox host, VM/LXC, storage, disk I/O, and network health from exporter and node metrics.",
+  "liveNow": false
 }

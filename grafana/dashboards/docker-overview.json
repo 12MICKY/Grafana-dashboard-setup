@@ -17,1082 +17,264 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "panels": [
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": "value",
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
+      "id": 1,
+      "type": "stat",
+      "title": "K3s Nodes",
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 4,
         "x": 0,
         "y": 0
       },
-      "id": 1,
+      "targets": [
+        {
+          "expr": "count(up{job=\"node-exporter\",node=~\"$node\"})",
+          "legendFormat": "Nodes"
+        }
+      ],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           },
-          "editorMode": "code",
-          "expr": "sum(docker_containers_running)",
-          "legendFormat": "running",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Running Containers",
-      "type": "stat"
-    },
-    {
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
+      "transparent": false
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Running Pods",
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 4,
         "x": 4,
         "y": 0
       },
-      "id": 2,
+      "targets": [
+        {
+          "expr": "count(count by (namespace, pod) (container_last_seen{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\"}))",
+          "legendFormat": "Pods"
+        }
+      ],
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "count(up{job=\"docker-exporter\"})",
-          "legendFormat": "nodes",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Docker Nodes",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
           "thresholds": {
-            "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "orange",
-                "value": 1
-              },
-              {
-                "color": "red",
-                "value": 3
               }
             ]
           },
-          "unit": "short"
+          "noValue": "No data"
         },
         "overrides": []
       },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false
+    },
+    {
+      "id": 3,
+      "type": "stat",
+      "title": "Node CPU Peak",
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 4,
         "x": 8,
         "y": 0
       },
-      "id": 7,
+      "targets": [
+        {
+          "expr": "max(100 * (1 - avg by(node)(rate(node_cpu_seconds_total{job=\"node-exporter\",node=~\"$node\",mode=\"idle\"}[5m]))))",
+          "legendFormat": "%"
+        }
+      ],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "count(docker_container_up == 0) or vector(0)",
-          "legendFormat": "down",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Down Containers",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": "value",
+          "unit": "percent",
           "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 12,
-        "y": 0
-      },
-      "id": 8,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "count(db_container_up)",
-          "legendFormat": "db",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "DB Containers",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
               },
               {
-                "color": "orange",
-                "value": 3
-              },
-              {
-                "color": "red",
-                "value": 5
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 5,
-        "w": 4,
-        "x": 16,
-        "y": 0
-      },
-      "id": 9,
-      "options": {
-        "colorMode": "background",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "max(docker_exporter_scrape_duration_seconds{job=\"docker-exporter\"})",
-          "legendFormat": "scrape",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Exporter Max Scrape",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "orange",
+                "color": "yellow",
                 "value": 70
               },
               {
                 "color": "red",
-                "value": 85
+                "value": 90
               }
             ]
           },
-          "unit": "percent"
+          "noValue": "No data"
         },
         "overrides": []
       },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false
+    },
+    {
+      "id": 4,
+      "type": "stat",
+      "title": "Node RAM Peak",
       "gridPos": {
-        "h": 5,
+        "h": 4,
         "w": 4,
-        "x": 20,
+        "x": 12,
         "y": 0
       },
-      "id": 10,
+      "targets": [
+        {
+          "expr": "max(100 * (1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\",node=~\"$node\"} / node_memory_MemTotal_bytes{job=\"node-exporter\",node=~\"$node\"})))",
+          "legendFormat": "%"
+        }
+      ],
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "max(100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{job=\"node-exporter\",mode=\"idle\"}[5m]))))",
-          "legendFormat": "cpu",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Node CPU Peak",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "down"
-                },
-                "1": {
-                  "color": "green",
-                  "index": 1,
-                  "text": "up"
-                }
-              },
-              "type": "value"
-            }
-          ],
+          "unit": "percent",
           "thresholds": {
-            "mode": "absolute",
             "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
               {
                 "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 1
+                "value": 90
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 5
-      },
-      "id": 3,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "11.2.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "docker_container_up",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
-          "instant": true,
-          "format": "table"
-        }
-      ],
-      "title": "Container Status",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {
-              "Time": true,
-              "__name__": true,
-              "id": true,
-              "instance": true,
-              "job": true,
-              "task": true
-            },
-            "indexByName": {},
-            "renameByName": {
-              "Value": "State",
-              "node": "Node",
-              "name": "Container",
-              "image": "Image",
-              "stack": "Stack",
-              "service": "Service",
-              "state": "Docker State"
-            }
-          }
-        }
-      ],
-      "type": "table"
-    },
-    {
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 13
-      },
-      "id": 4,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "topk(12, rate(docker_container_cpu_usage_seconds_total{state=\"running\"}[5m]) * 100)",
-          "legendFormat": "{{node}} / {{service}} / {{name}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Top Container CPU",
-      "type": "timeseries"
+      "transparent": false
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "decbytes"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 13
-      },
       "id": 5,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "topk(12, docker_container_memory_usage_bytes{state=\"running\"})",
-          "legendFormat": "{{node}} / {{service}} / {{name}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Top Container Memory",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "Bps"
-        },
-        "overrides": []
-      },
+      "type": "stat",
+      "title": "cAdvisor Scrape",
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 21
-      },
-      "id": 6,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 0
       },
       "targets": [
         {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "topk(10, rate(docker_container_block_read_bytes_total{state=\"running\"}[5m]))",
-          "legendFormat": "{{node}} / {{name}} read",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "topk(10, rate(docker_container_block_write_bytes_total{state=\"running\"}[5m]))",
-          "legendFormat": "{{node}} / {{name}} write",
-          "range": true,
-          "refId": "B"
+          "expr": "count(up{job=\"cadvisor\",node=~\"$node\"} == 1)",
+          "legendFormat": "Up"
         }
       ],
-      "title": "Top Container Disk IO",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 21
-      },
-      "id": 11,
       "options": {
-        "legend": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
+          "fields": ""
         },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "docker_exporter_scrape_duration_seconds{job=\"docker-exporter\"}",
-          "legendFormat": "{{instance}}",
-          "range": true,
-          "refId": "A"
-        }
-      ],
-      "title": "Docker Exporter Scrape Duration",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
+        "textMode": "value",
+        "wideLayout": true
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
           "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 29
-      },
-      "id": 12,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{job=\"node-exporter\",mode=\"idle\"}[5m])))",
-          "legendFormat": "{{instance}} CPU",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "100 * (1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\"} / node_memory_MemTotal_bytes{job=\"node-exporter\"}))",
-          "legendFormat": "{{instance}} memory",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Swarm Node CPU / Memory",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisPlacement": "auto",
-            "drawStyle": "line",
-            "fillOpacity": 12,
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "binBps"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 29
-      },
-      "id": 13,
-      "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "desc"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum by (instance, device) (rate(node_network_receive_bytes_total{job=\"node-exporter\",device!~\"lo|docker.*|br-.*|veth.*\"}[5m]))",
-          "legendFormat": "{{instance}} {{device}} RX",
-          "range": true,
-          "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "prometheus"
-          },
-          "editorMode": "code",
-          "expr": "sum by (instance, device) (rate(node_network_transmit_bytes_total{job=\"node-exporter\",device!~\"lo|docker.*|br-.*|veth.*\"}[5m]))",
-          "legendFormat": "{{instance}} {{device}} TX",
-          "range": true,
-          "refId": "B"
-        }
-      ],
-      "title": "Swarm Node Network",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
-          "mappings": [
-            {
-              "options": {
-                "0": {
-                  "color": "red",
-                  "index": 0,
-                  "text": "down"
-                },
-                "1": {
-                  "color": "green",
-                  "index": 1,
-                  "text": "up"
-                }
-              },
-              "type": "value"
-            }
-          ],
-          "thresholds": {
-            "mode": "absolute",
             "steps": [
               {
                 "color": "red",
@@ -1103,30 +285,27 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false
+    },
+    {
+      "id": 6,
+      "type": "table",
+      "title": "Kubernetes Containers by Memory",
       "gridPos": {
-        "h": 7,
+        "h": 10,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 4
       },
-      "id": 14,
-      "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
-      },
-      "pluginVersion": "11.2.2",
       "targets": [
         {
           "datasource": {
@@ -1134,15 +313,143 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "db_container_up",
-          "legendFormat": "__auto",
-          "range": false,
-          "refId": "A",
+          "expr": "topk($top, max by (namespace, pod, container, node) (container_memory_usage_bytes{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\",node=~\"$node\"}))",
+          "format": "table",
           "instant": true,
-          "format": "table"
+          "legendFormat": "{{namespace}}/{{pod}}/{{container}}",
+          "refId": "A"
         }
       ],
-      "title": "Database Containers",
+      "options": {
+        "showHeader": true,
+        "cellHeight": "sm",
+        "sortBy": [
+          {
+            "displayName": "Memory",
+            "desc": true
+          }
+        ],
+        "footer": {
+          "show": true,
+          "reducer": [
+            "sum"
+          ],
+          "countRows": true,
+          "fields": "Memory"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "No data",
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Memory"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "bytes"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "custom.align",
+                "value": "right"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "yellow",
+                      "value": 268435456
+                    },
+                    {
+                      "color": "red",
+                      "value": 536870912
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Namespace"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Pod"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 260
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Container"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Node"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 120
+              }
+            ]
+          }
+        ]
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
       "transformations": [
         {
           "id": "organize",
@@ -1150,143 +457,538 @@
             "excludeByName": {
               "Time": true,
               "__name__": true,
-              "id": true,
+              "job": true,
               "instance": true,
-              "job": true
+              "id": true,
+              "image": true,
+              "name": true
             },
-            "indexByName": {},
+            "indexByName": {
+              "namespace": 0,
+              "pod": 1,
+              "container": 2,
+              "node": 3,
+              "Value": 4
+            },
             "renameByName": {
-              "Value": "State",
+              "namespace": "Namespace",
+              "pod": "Pod",
+              "container": "Container",
               "node": "Node",
-              "name": "Container",
-              "db_type": "DB",
-              "image": "Image",
-              "stack": "Stack",
-              "service": "Service"
+              "Value": "Memory"
             }
           }
         }
       ],
-      "type": "table"
+      "description": "Top containers by current memory, filtered by Kubernetes namespace, pod, container, and node variables."
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "Top Pod CPU",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "targets": [
+        {
+          "expr": "topk(10, max by (namespace, pod, container) (rate(container_cpu_usage_seconds_total{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\",node=~\"$node\"}[5m]) * 100))",
+          "legendFormat": "{{namespace}}/{{pod}}/{{container}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "type": "timeseries",
+      "title": "Top Pod Memory",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "targets": [
+        {
+          "expr": "topk(10, max by (namespace, pod, container) (container_memory_usage_bytes{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\",node=~\"$node\"}))",
+          "legendFormat": "{{namespace}}/{{pod}}/{{container}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Top Pod Disk IO",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 20
+      },
+      "targets": [
+        {
+          "expr": "topk(10, max by (namespace, pod, container) (rate(container_fs_reads_bytes_total{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\",node=~\"$node\"}[5m])))",
+          "legendFormat": "read {{namespace}}/{{pod}}/{{container}}"
+        },
+        {
+          "expr": "topk(10, max by (namespace, pod, container) (rate(container_fs_writes_bytes_total{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container=~\"$container\",container!=\"\",pod!=\"\",node=~\"$node\"}[5m])))",
+          "legendFormat": "write {{namespace}}/{{pod}}/{{container}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "K3s Node CPU / Memory",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 20
+      },
+      "targets": [
+        {
+          "expr": "100 * (1 - avg by(node)(rate(node_cpu_seconds_total{job=\"node-exporter\",node=~\"$node\",mode=\"idle\"}[5m])))",
+          "legendFormat": "CPU {{node}}"
+        },
+        {
+          "expr": "100 * (1 - (node_memory_MemAvailable_bytes{job=\"node-exporter\",node=~\"$node\"} / node_memory_MemTotal_bytes{job=\"node-exporter\",node=~\"$node\"}))",
+          "legendFormat": "RAM {{node}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "K3s Node Network",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "targets": [
+        {
+          "expr": "sum by(node,device)(rate(node_network_receive_bytes_total{job=\"node-exporter\",node=~\"$node\",device!~\"lo|flannel.*|cni.*|veth.*|tunl.*\"}[5m]))",
+          "legendFormat": "rx {{node}} {{device}}"
+        },
+        {
+          "expr": "sum by(node,device)(rate(node_network_transmit_bytes_total{job=\"node-exporter\",node=~\"$node\",device!~\"lo|flannel.*|cni.*|veth.*|tunl.*\"}[5m]))",
+          "legendFormat": "tx {{node}} {{device}}"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "Bps",
+          "noValue": "No data"
+        },
+        "overrides": []
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "transparent": false,
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      }
     }
   ],
   "refresh": "10s",
   "schemaVersion": 39,
   "tags": [
+    "homelab",
+    "monitoring",
     "docker",
     "swarm",
-    "containers",
-    "homelab"
+    "containers"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "top",
+        "label": "Top",
+        "type": "custom",
+        "query": "10,20,30,50,100",
+        "current": {
+          "selected": true,
+          "text": "30",
+          "value": "30"
+        },
+        "options": [
+          {
+            "selected": false,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": true,
+            "text": "30",
+            "value": "30"
+          },
+          {
+            "selected": false,
+            "text": "50",
+            "value": "50"
+          },
+          {
+            "selected": false,
+            "text": "100",
+            "value": "100"
+          }
+        ],
+        "hide": 0,
+        "includeAll": false,
+        "multi": false
+      },
+      {
+        "name": "namespace",
+        "label": "Namespace",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": "label_values(container_last_seen{job=\"cadvisor\",container!=\"\",pod!=\"\",namespace!=\"\"}, namespace)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0
+      },
+      {
+        "name": "pod",
+        "label": "Pod",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": "label_values(container_last_seen{job=\"cadvisor\",namespace=~\"$namespace\",container!=\"\",pod!=\"\"}, pod)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0
+      },
+      {
+        "name": "container",
+        "label": "Container",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": "label_values(container_last_seen{job=\"cadvisor\",namespace=~\"$namespace\",pod=~\"$pod\",container!=\"\"}, container)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0
+      },
+      {
+        "name": "node",
+        "label": "Node",
+        "type": "query",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "prometheus"
+        },
+        "query": "label_values(up{job=\"node-exporter\"}, node)",
+        "refresh": 1,
+        "sort": 1,
+        "multi": true,
+        "includeAll": true,
+        "allValue": ".*",
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 0
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ],
+    "time_options": [
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
   "timezone": "browser",
-  "title": "03 Docker",
+  "title": "03 K3s",
   "uid": "docker-monitoring-overview",
-  "version": 10,
-  "weekStart": "",
+  "version": 15,
+  "weekStart": "monday",
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Overview",
-      "tooltip": "Homelab Overview",
+      "tooltip": "Main homelab health overview",
       "type": "link",
-      "url": "/d/homelab-overview/homelab-overview?orgId=1&refresh=10s"
+      "url": "/d/homelab-overview/01-overview?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "Docker",
-      "tooltip": "Docker Swarm Monitoring Overview",
-      "type": "link",
-      "url": "/d/docker-monitoring-overview/docker-swarm-monitoring-overview?orgId=1&refresh=10s"
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Proxmox",
-      "tooltip": "Proxmox Home",
+      "tooltip": "Proxmox host, guests, storage, and network",
       "type": "link",
-      "url": "/d/proxmox-home/proxmox-home?orgId=1&refresh=10s"
+      "url": "/d/proxmox-home/02-proxmox?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
-      "title": "UniFi",
-      "tooltip": "UniFi LXC Overview",
+      "title": "K3s",
+      "tooltip": "K3s node and pod resource overview",
       "type": "link",
-      "url": "/d/unifi-lxc-overview/unifi-lxc-overview?orgId=1&refresh=10s"
+      "url": "/d/docker-monitoring-overview/03-k3s?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Server1",
-      "tooltip": "Server1 Services Overview",
+      "tooltip": "Server1 service probes and host health",
       "type": "link",
-      "url": "/d/server1-services-overview/server1-services-overview?orgId=1&refresh=10s"
+      "url": "/d/server1-services-overview/04-server1?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "DB",
-      "tooltip": "DB Servers Overview",
+      "tooltip": "Database containers and PostgreSQL health",
       "type": "link",
-      "url": "/d/db-servers-overview/db-servers-overview?orgId=1&refresh=10s"
+      "url": "/d/db-servers-overview/05-db?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "PostgreSQL",
-      "tooltip": "PostgreSQL Host Overview",
+      "tooltip": "PostgreSQL host metrics",
       "type": "link",
-      "url": "/d/postgres-host-overview/postgresql-host-overview?orgId=1&refresh=10s"
+      "url": "/d/postgres-host-overview/06-postgresql?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "UniFi",
+      "tooltip": "UniFi LXC service and WiFi metrics",
+      "type": "link",
+      "url": "/d/unifi-lxc-overview/07-unifi?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Home DNS",
-      "tooltip": "Home Server / Backup DNS Overview",
+      "tooltip": "Home backup DNS and Raspberry Pi health",
       "type": "link",
-      "url": "/d/home-server-overview/home-server-backup-dns-overview?orgId=1&refresh=10s"
+      "url": "/d/home-server-overview/08-home-dns?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Local Services",
+      "tooltip": "Local blackbox service checks and monitoring health",
+      "type": "link",
+      "url": "/d/local-services-overview/09-local-services?orgId=1&refresh=10s"
     }
-  ]
+  ],
+  "description": "K3s overview using Kubernetes namespace, pod, container, and node labels from cAdvisor and node-exporter.",
+  "liveNow": false
 }

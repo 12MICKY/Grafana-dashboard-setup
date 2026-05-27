@@ -17,7 +17,7 @@
   },
   "editable": true,
   "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
+  "graphTooltip": 1,
   "panels": [
     {
       "datasource": {
@@ -59,7 +59,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -73,16 +74,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -92,14 +93,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_up{job=\"unifi-lxc\"}",
+          "expr": "max(unifi_lxc_up{job=\"unifi-lxc\"})",
           "legendFormat": "LXC",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "LXC 102",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -141,7 +143,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -155,16 +158,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -174,14 +177,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_service_up{job=\"unifi-lxc\",service=\"unifi\"}",
+          "expr": "max(unifi_lxc_service_up{job=\"unifi-lxc\",service=\"unifi\"})",
           "legendFormat": "unifi",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "UniFi Service",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -223,7 +227,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -237,16 +242,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -256,14 +261,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "probe_success{job=\"unifi-http\",service=\"unifi-ui\"}",
+          "expr": "max(probe_success{job=\"unifi-http\",service=\"unifi-ui\"})",
           "legendFormat": "UI",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "UniFi UI",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -305,7 +311,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -319,16 +326,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -338,14 +345,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "probe_success{job=\"unifi-http\",service=\"unifi-inform\"}",
+          "expr": "max(probe_success{job=\"unifi-http\",service=\"unifi-inform\"})",
           "legendFormat": "Inform",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Inform",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -375,7 +383,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -389,16 +398,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -415,7 +424,8 @@
         }
       ],
       "title": "Ports Open",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -437,7 +447,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -449,18 +460,18 @@
       },
       "id": 4,
       "options": {
-        "colorMode": "value",
+        "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -470,14 +481,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_uptime_seconds{job=\"unifi-lxc\"}",
+          "expr": "max(unifi_lxc_uptime_seconds{job=\"unifi-lxc\"})",
           "legendFormat": "uptime",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "LXC Uptime",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -507,7 +519,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -521,16 +534,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -540,14 +553,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "100 * proxmox_guest_cpu_ratio{job=\"proxmox-pve\",vmid=\"102\"}",
+          "expr": "max(100 * proxmox_guest_cpu_ratio{job=\"proxmox-pve\",vmid=\"102\"})",
           "legendFormat": "CPU",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "LXC CPU",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -577,7 +591,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -591,16 +606,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -610,14 +625,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "proxmox_guest_memory_bytes{job=\"proxmox-pve\",vmid=\"102\",state=\"used\"}",
+          "expr": "max(proxmox_guest_memory_bytes{job=\"proxmox-pve\",vmid=\"102\",state=\"used\"})",
           "legendFormat": "Memory",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "LXC Memory",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -647,7 +663,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -661,16 +678,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -680,14 +697,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_process_rss_bytes{job=\"unifi-lxc\",process=\"java\"}",
+          "expr": "max(unifi_lxc_process_rss_bytes{job=\"unifi-lxc\",process=\"java\"})",
           "legendFormat": "java",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Java RSS",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -717,7 +735,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -731,16 +750,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -750,14 +769,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_process_rss_bytes{job=\"unifi-lxc\",process=\"mongod\"}",
+          "expr": "max(unifi_lxc_process_rss_bytes{job=\"unifi-lxc\",process=\"mongod\"})",
           "legendFormat": "mongod",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "MongoDB RSS",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -787,7 +807,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -801,16 +822,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -820,14 +841,15 @@
             "uid": "prometheus"
           },
           "editorMode": "code",
-          "expr": "unifi_lxc_exporter_scrape_duration_seconds{job=\"unifi-lxc\"}",
+          "expr": "max(unifi_lxc_exporter_scrape_duration_seconds{job=\"unifi-lxc\"})",
           "legendFormat": "scrape",
           "range": true,
           "refId": "A"
         }
       ],
       "title": "Exporter Scrape",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -871,7 +893,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -910,7 +933,8 @@
         }
       ],
       "title": "LXC CPU",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -954,7 +978,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1004,7 +1029,8 @@
         }
       ],
       "title": "Memory Breakdown",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1048,7 +1074,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1087,7 +1114,8 @@
         }
       ],
       "title": "UniFi HTTP Latency",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1131,7 +1159,8 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "s",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1170,7 +1199,8 @@
         }
       ],
       "title": "Exporter Scrape Duration",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1214,7 +1244,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1253,7 +1284,8 @@
         }
       ],
       "title": "Port Health",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1301,7 +1333,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1365,7 +1398,8 @@
           }
         }
       ],
-      "type": "table"
+      "type": "table",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1413,7 +1447,8 @@
                 "value": 1
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1478,7 +1513,8 @@
           }
         }
       ],
-      "type": "table"
+      "type": "table",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1508,7 +1544,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1522,16 +1559,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1548,7 +1585,8 @@
         }
       ],
       "title": "WiFi Clients",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1574,7 +1612,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1588,16 +1627,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1614,7 +1653,8 @@
         }
       ],
       "title": "Enabled SSIDs",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1644,7 +1684,8 @@
               }
             ]
           },
-          "unit": "percent"
+          "unit": "percent",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1658,16 +1699,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1684,7 +1725,8 @@
         }
       ],
       "title": "Worst WiFi Score",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1714,7 +1756,8 @@
               }
             ]
           },
-          "unit": "dBm"
+          "unit": "dBm",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1728,16 +1771,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1754,7 +1797,8 @@
         }
       ],
       "title": "Worst Signal",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1784,7 +1828,8 @@
               }
             ]
           },
-          "unit": "ms"
+          "unit": "ms",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1798,16 +1843,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1824,7 +1869,8 @@
         }
       ],
       "title": "Max WiFi Latency",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1854,7 +1900,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1868,16 +1915,16 @@
       "options": {
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto",
+        "justifyMode": "center",
         "orientation": "auto",
         "reduceOptions": {
+          "values": false,
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
-          "values": false
+          "fields": ""
         },
-        "textMode": "auto",
+        "textMode": "value",
         "wideLayout": true
       },
       "targets": [
@@ -1894,7 +1941,8 @@
         }
       ],
       "title": "WiFi Failures",
-      "type": "stat"
+      "type": "stat",
+      "transparent": false
     },
     {
       "datasource": {
@@ -1938,7 +1986,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -1977,7 +2026,8 @@
         }
       ],
       "title": "Clients by SSID",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -2021,7 +2071,8 @@
               }
             ]
           },
-          "unit": "decbytes"
+          "unit": "decbytes",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -2071,7 +2122,8 @@
         }
       ],
       "title": "WiFi Daily Traffic by SSID",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -2115,7 +2167,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -2165,7 +2218,8 @@
         }
       ],
       "title": "WiFi Performance / Signal",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -2209,7 +2263,8 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "short",
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -2270,7 +2325,8 @@
         }
       ],
       "title": "WiFi Latency / Failures",
-      "type": "timeseries"
+      "type": "timeseries",
+      "transparent": false
     },
     {
       "datasource": {
@@ -2295,7 +2351,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -2362,13 +2419,15 @@
           }
         }
       ],
-      "type": "table"
+      "type": "table",
+      "transparent": false
     }
   ],
   "refresh": "10s",
   "schemaVersion": 39,
   "tags": [
     "homelab",
+    "monitoring",
     "proxmox",
     "unifi",
     "lxc",
@@ -2385,108 +2444,143 @@
     "from": "now-6h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ],
+    "time_options": [
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
   "timezone": "browser",
   "title": "07 UniFi",
   "uid": "unifi-lxc-overview",
-  "version": 9,
-  "weekStart": "",
+  "version": 11,
+  "weekStart": "monday",
   "links": [
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Overview",
-      "tooltip": "Homelab Overview",
+      "tooltip": "Main homelab health overview",
       "type": "link",
-      "url": "/d/homelab-overview/homelab-overview?orgId=1&refresh=10s"
+      "url": "/d/homelab-overview/01-overview?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
-      "keepTime": true,
-      "tags": [],
-      "targetBlank": false,
-      "title": "Docker",
-      "tooltip": "Docker Swarm Monitoring Overview",
-      "type": "link",
-      "url": "/d/docker-monitoring-overview/docker-swarm-monitoring-overview?orgId=1&refresh=10s"
-    },
-    {
-      "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Proxmox",
-      "tooltip": "Proxmox Home",
+      "tooltip": "Proxmox host, guests, storage, and network",
       "type": "link",
-      "url": "/d/proxmox-home/proxmox-home?orgId=1&refresh=10s"
+      "url": "/d/proxmox-home/02-proxmox?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
-      "title": "UniFi",
-      "tooltip": "UniFi LXC Overview",
+      "title": "K3s",
+      "tooltip": "K3s node and pod resource overview",
       "type": "link",
-      "url": "/d/unifi-lxc-overview/unifi-lxc-overview?orgId=1&refresh=10s"
+      "url": "/d/docker-monitoring-overview/03-k3s?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Server1",
-      "tooltip": "Server1 Services Overview",
+      "tooltip": "Server1 service probes and host health",
       "type": "link",
-      "url": "/d/server1-services-overview/server1-services-overview?orgId=1&refresh=10s"
+      "url": "/d/server1-services-overview/04-server1?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "DB",
-      "tooltip": "DB Servers Overview",
+      "tooltip": "Database containers and PostgreSQL health",
       "type": "link",
-      "url": "/d/db-servers-overview/db-servers-overview?orgId=1&refresh=10s"
+      "url": "/d/db-servers-overview/05-db?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "PostgreSQL",
-      "tooltip": "PostgreSQL Host Overview",
+      "tooltip": "PostgreSQL host metrics",
       "type": "link",
-      "url": "/d/postgres-host-overview/postgresql-host-overview?orgId=1&refresh=10s"
+      "url": "/d/postgres-host-overview/06-postgresql?orgId=1&refresh=10s"
     },
     {
       "asDropdown": false,
-      "icon": "external link",
-      "includeVars": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "UniFi",
+      "tooltip": "UniFi LXC service and WiFi metrics",
+      "type": "link",
+      "url": "/d/unifi-lxc-overview/07-unifi?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
       "keepTime": true,
       "tags": [],
       "targetBlank": false,
       "title": "Home DNS",
-      "tooltip": "Home Server / Backup DNS Overview",
+      "tooltip": "Home backup DNS and Raspberry Pi health",
       "type": "link",
-      "url": "/d/home-server-overview/home-server-backup-dns-overview?orgId=1&refresh=10s"
+      "url": "/d/home-server-overview/08-home-dns?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Local Services",
+      "tooltip": "Local blackbox service checks and monitoring health",
+      "type": "link",
+      "url": "/d/local-services-overview/09-local-services?orgId=1&refresh=10s"
     }
-  ]
+  ],
+  "description": "UniFi LXC service state, port checks, resource usage, WiFi clients, SSIDs, latency, and failures.",
+  "liveNow": false
 }

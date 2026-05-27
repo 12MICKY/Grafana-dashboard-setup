@@ -11,26 +11,91 @@ scrape_configs:
       - targets:
           - prometheus:9090
 
-  - job_name: docker-exporter
-    dns_sd_configs:
-      - names:
-          - tasks.docker-exporter
-        type: A
-        port: 9101
+  - job_name: grafana
+    static_configs:
+      - targets:
+          - grafana:3000
 
   - job_name: node-exporter
-    dns_sd_configs:
-      - names:
-          - tasks.node-exporter
-        type: A
-        port: 9100
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - monitoring
+    relabel_configs:
+      - source_labels:
+          - __meta_kubernetes_pod_label_app
+        action: keep
+        regex: node-exporter
+      - source_labels:
+          - __meta_kubernetes_pod_phase
+        action: keep
+        regex: Running
+      - source_labels:
+          - __meta_kubernetes_pod_ip
+        target_label: __address__
+        replacement: $1:9100
+      - source_labels:
+          - __meta_kubernetes_pod_node_name
+        target_label: node
+
+  - job_name: cadvisor
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - monitoring
+    relabel_configs:
+      - source_labels:
+          - __meta_kubernetes_pod_label_app
+        action: keep
+        regex: cadvisor
+      - source_labels:
+          - __meta_kubernetes_pod_phase
+        action: keep
+        regex: Running
+      - source_labels:
+          - __meta_kubernetes_pod_ip
+        target_label: __address__
+        replacement: $1:8080
+      - source_labels:
+          - __meta_kubernetes_pod_node_name
+        target_label: node
+    metric_relabel_configs:
+      - source_labels:
+          - container_label_io_kubernetes_pod_namespace
+        target_label: namespace
+      - source_labels:
+          - container_label_io_kubernetes_pod_name
+        target_label: pod
+      - source_labels:
+          - container_label_io_kubernetes_container_name
+        target_label: container
+      - regex: container_label_.*
+        action: labeldrop
 
   - job_name: host-db-exporter
-    dns_sd_configs:
-      - names:
-          - tasks.host-db-exporter
-        type: A
-        port: 9102
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - monitoring
+    relabel_configs:
+      - source_labels:
+          - __meta_kubernetes_pod_label_app
+        action: keep
+        regex: host-db-exporter
+      - source_labels:
+          - __meta_kubernetes_pod_phase
+        action: keep
+        regex: Running
+      - source_labels:
+          - __meta_kubernetes_pod_ip
+        target_label: __address__
+        replacement: $1:9102
+      - source_labels:
+          - __meta_kubernetes_pod_node_name
+        target_label: node
 
   - job_name: proxmox-home
     static_configs:

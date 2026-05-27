@@ -1,5 +1,6 @@
 .env
 *.bak*
 backups/
+grafana/dashboards.backup-*/
 *.tmp
 .DS_Store

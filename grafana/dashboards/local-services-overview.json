@@ -19,7 +19,116 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Overview",
+      "tooltip": "Main homelab health overview",
+      "type": "link",
+      "url": "/d/homelab-overview/01-overview?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Proxmox",
+      "tooltip": "Proxmox host, guests, storage, and network",
+      "type": "link",
+      "url": "/d/proxmox-home/02-proxmox?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "K3s",
+      "tooltip": "K3s node and pod resource overview",
+      "type": "link",
+      "url": "/d/docker-monitoring-overview/03-k3s?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Server1",
+      "tooltip": "Server1 service probes and host health",
+      "type": "link",
+      "url": "/d/server1-services-overview/04-server1?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "DB",
+      "tooltip": "Database containers and PostgreSQL health",
+      "type": "link",
+      "url": "/d/db-servers-overview/05-db?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "PostgreSQL",
+      "tooltip": "PostgreSQL host metrics",
+      "type": "link",
+      "url": "/d/postgres-host-overview/06-postgresql?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "UniFi",
+      "tooltip": "UniFi LXC service and WiFi metrics",
+      "type": "link",
+      "url": "/d/unifi-lxc-overview/07-unifi?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home DNS",
+      "tooltip": "Home backup DNS and Raspberry Pi health",
+      "type": "link",
+      "url": "/d/home-server-overview/08-home-dns?orgId=1&refresh=10s"
+    },
+    {
+      "asDropdown": false,
+      "icon": "dashboard",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Local Services",
+      "tooltip": "Local blackbox service checks and monitoring health",
+      "type": "link",
+      "url": "/d/local-services-overview/09-local-services?orgId=1&refresh=10s"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
@@ -51,10 +160,11 @@
           "fields": ""
         },
         "orientation": "auto",
-        "textMode": "auto",
+        "textMode": "value",
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto"
+        "justifyMode": "center",
+        "wideLayout": true
       },
       "fieldConfig": {
         "defaults": {
@@ -80,7 +190,8 @@
           "noValue": "0"
         },
         "overrides": []
-      }
+      },
+      "transparent": false
     },
     {
       "id": 2,
@@ -98,7 +209,7 @@
       },
       "targets": [
         {
-          "expr": "sum(up{job=~\"prometheus|grafana|node-exporter|docker-exporter|host-db-exporter\"})",
+          "expr": "sum(up{job=~\"prometheus|grafana|node-exporter|cadvisor|host-db-exporter\"})",
           "refId": "A"
         }
       ],
@@ -111,10 +222,11 @@
           "fields": ""
         },
         "orientation": "auto",
-        "textMode": "auto",
+        "textMode": "value",
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto"
+        "justifyMode": "center",
+        "wideLayout": true
       },
       "fieldConfig": {
         "defaults": {
@@ -136,7 +248,8 @@
           "noValue": "0"
         },
         "overrides": []
-      }
+      },
+      "transparent": false
     },
     {
       "id": 3,
@@ -167,10 +280,11 @@
           "fields": ""
         },
         "orientation": "auto",
-        "textMode": "auto",
+        "textMode": "value",
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto"
+        "justifyMode": "center",
+        "wideLayout": true
       },
       "fieldConfig": {
         "defaults": {
@@ -196,7 +310,8 @@
           "noValue": "0"
         },
         "overrides": []
-      }
+      },
+      "transparent": false
     },
     {
       "id": 4,
@@ -227,10 +342,11 @@
           "fields": ""
         },
         "orientation": "auto",
-        "textMode": "auto",
+        "textMode": "value",
         "colorMode": "background",
         "graphMode": "area",
-        "justifyMode": "auto"
+        "justifyMode": "center",
+        "wideLayout": true
       },
       "fieldConfig": {
         "defaults": {
@@ -256,7 +372,8 @@
           "noValue": "0"
         },
         "overrides": []
-      }
+      },
+      "transparent": false
     },
     {
       "id": 5,
@@ -307,7 +424,8 @@
             "cellOptions": {
               "type": "auto"
             }
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": [
           {
@@ -348,7 +466,8 @@
         "footer": {
           "show": false
         }
-      }
+      },
+      "transparent": false
     },
     {
       "id": 6,
@@ -381,7 +500,8 @@
             "fillOpacity": 12,
             "showPoints": "never",
             "spanNulls": false
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -392,13 +512,15 @@
           "calcs": [
             "lastNotNull",
             "mean"
-          ]
+          ],
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transparent": false
     },
     {
       "id": 7,
@@ -431,7 +553,8 @@
             "fillOpacity": 12,
             "showPoints": "never",
             "spanNulls": false
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -442,13 +565,15 @@
           "calcs": [
             "lastNotNull",
             "mean"
-          ]
+          ],
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transparent": false
     },
     {
       "id": 8,
@@ -481,7 +606,8 @@
             "fillOpacity": 12,
             "showPoints": "never",
             "spanNulls": false
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -492,13 +618,15 @@
           "calcs": [
             "lastNotNull",
             "mean"
-          ]
+          ],
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transparent": false
     },
     {
       "id": 9,
@@ -531,7 +659,8 @@
             "fillOpacity": 12,
             "showPoints": "never",
             "spanNulls": false
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -542,13 +671,15 @@
           "calcs": [
             "lastNotNull",
             "mean"
-          ]
+          ],
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transparent": false
     },
     {
       "id": 10,
@@ -581,7 +712,8 @@
             "fillOpacity": 12,
             "showPoints": "never",
             "spanNulls": false
-          }
+          },
+          "noValue": "No data"
         },
         "overrides": []
       },
@@ -592,19 +724,22 @@
           "calcs": [
             "lastNotNull",
             "mean"
-          ]
+          ],
+          "showLegend": true
         },
         "tooltip": {
           "mode": "multi",
           "sort": "desc"
         }
-      }
+      },
+      "transparent": false
     }
   ],
-  "refresh": "30s",
+  "refresh": "10s",
   "schemaVersion": 39,
   "tags": [
     "homelab",
+    "monitoring",
     "services",
     "blackbox"
   ],
@@ -615,10 +750,32 @@
     "from": "now-6h",
     "to": "now"
   },
-  "timepicker": {},
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h"
+    ],
+    "time_options": [
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
   "timezone": "browser",
   "title": "09 Local Services",
   "uid": "local-services-overview",
-  "version": 2,
-  "weekStart": ""
+  "version": 3,
+  "weekStart": "monday",
+  "description": "Unified local HTTP, DNS, monitoring, alert, latency, and Prometheus scrape health view."
 }
